@@ -293,7 +293,7 @@ class CardListFetcher {
   async fetch(url) {
     try {
       const corsAnywhereUrl = `https://cors-anywhere.herokuapp.com/${url}`;
-      const response = await fetch(corsAnywhereUrl, {
+      const response = await fetch(url, {
         method: 'GET',
         headers: {
           Authorization: `Basic ${btoa(this.username + ':' + this.password)}`,
