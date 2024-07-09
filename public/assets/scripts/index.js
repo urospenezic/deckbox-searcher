@@ -291,6 +291,9 @@ class CardListFetcher {
 
   async fetch(url) {
     try {
+      const auth = btoa(this.username + ':' + this.password);
+      const proxyUrl = `/proxy?url=${encodeURIComponent(url)}`;
+
       // const corsAnywhereUrl = `https://cors-anywhere.herokuapp.com/${url}`;
       // const response = await fetch(corsAnywhereUrl, {
       //   method: 'GET',
@@ -302,12 +305,15 @@ class CardListFetcher {
       //   redirect: 'error', // Prevent automatic following of redirects
       // });
 
-      const proxyUrl = `/proxy?url=${encodeURIComponent(
-        url
-      )}&username=${encodeURIComponent(username)}&password=${encodeURIComponent(
-        password
-      )}`;
-      const response = await fetch(proxyUrl);
+      const response = await fetch(proxyUrl, {
+        method: 'GET',
+        headers: {
+          Authorization: `Basic ${auth}`,
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'text/html',
+        },
+        redirect: 'error', // Prevent automatic following of redirects
+      });
 
       if (response.ok) {
         console.log('SUCCESS');
