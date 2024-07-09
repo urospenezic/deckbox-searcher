@@ -5,5 +5,10 @@
   "author": "pepegica",
   "license": "ISC",
   "description": "A simple tool for fetching multiple cards at once from any deckbox inventory",
-  "start":"index.html"
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
