@@ -95,15 +95,14 @@ class Controller {
     this.toggleSection(this.errorSection, false);
     this.toggleSection(this.loadingSection, false);
     this.toggleSection(this.backdrop, false);
-    this.toggleSection(this.form, false);
+    this.form.classList.remove('visible');
   }
 
   toggleError() {
-    this.toggleSection(this.backdrop, false);
     this.toggleSection(this.entryText, false);
-    this.toggleSection(this.form, false);
     this.toggleSection(this.cardListSection, false);
     this.toggleSection(this.errorSection, true);
+    this.form.classList.remove('visible');
   }
 
   toggleBackdrop(on) {
@@ -292,16 +291,23 @@ class CardListFetcher {
 
   async fetch(url) {
     try {
-      const corsAnywhereUrl = `https://cors-anywhere.herokuapp.com/${url}`;
-      const response = await fetch(corsAnywhereUrl, {
-        method: 'GET',
-        headers: {
-          Authorization: `Basic ${btoa(this.username + ':' + this.password)}`,
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'text/html',
-        },
-        redirect: 'error', // Prevent automatic following of redirects
-      });
+      // const corsAnywhereUrl = `https://cors-anywhere.herokuapp.com/${url}`;
+      // const response = await fetch(corsAnywhereUrl, {
+      //   method: 'GET',
+      //   headers: {
+      //     Authorization: `Basic ${btoa(this.username + ':' + this.password)}`,
+      //     'Access-Control-Allow-Origin': '*',
+      //     'Content-Type': 'text/html',
+      //   },
+      //   redirect: 'error', // Prevent automatic following of redirects
+      // });
+
+      const proxyUrl = `/proxy?url=${encodeURIComponent(
+        url
+      )}&username=${encodeURIComponent(username)}&password=${encodeURIComponent(
+        password
+      )}`;
+      const response = await fetch(proxyUrl);
 
       if (response.ok) {
         console.log('SUCCESS');
