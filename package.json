@@ -1,0 +1,9 @@
+{
+  "name": "deck-box-searcher",
+  "version": "1.0.0",
+  "keywords": [],
+  "author": "pepegica",
+  "license": "ISC",
+  "description": "A simple tool for fetching multiple cards at once from any deckbox inventory",
+  "start":"index.html"
+}

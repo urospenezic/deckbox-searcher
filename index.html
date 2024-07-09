@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Deckbox Searcher</title>
+    <link rel="stylesheet" href="assets/styles/index.css" />
+    <script src="assets/scripts/index.js" defer></script>
+  </head>
+  <body>
+    <div id="backdrop"></div>
+    <div class="modal card" id="add-modal">
+      <div class="modal__content">
+        <label for="username">Deckbox username</label>
+        <input type="text" name="username" id="username" placeholder="Will not be saved anywhere..."/>
+        <label for="password">Deckbox password</label>
+        <input type="text" name="password" id="password" placeholder="Will not be saved anywhere..."/>
+        <label for="set">Paste in users set url</label>
+        <input type="text" name="set" id="set" />
+        <label for="my-card-list">Paste your card list here</label>
+        <textarea type="text" name="my-card-list" id="my-card-list">Enter what you're looking for separated by new line...</textarea>
+        <button class="btn" id="go-btn">START SEARCH</button>
+      </div>
+    </div>
+
+    <header>
+      <h1>Deckbox Searcher</h1>
+      <button id="add-btn">ADD INFO</button>
+    </header>
+
+    <main>
+      <section id="loading-animation">
+        <div class="loader"></div>
+      </section>
+      <section id="entry-text" class="card">
+        <p>Add info to search for multiple cards at once!</p>
+        <p>Please make sure you're logged in to your deckbox in the browser to avoid any errors!</p>
+        <p>This script cannot handle email confirmation redirects for you.</p>
+      </section>
+      <section id="cards-found" class="modal">
+        <div id="cards-div">
+          <h1>User has these cards:</h1>
+          <ul id="card-list"></ul>
+        </div>
+        <section id="error" class="modal error">
+          <p>An error occurred while fetching cards from the server...</p>
+        </section>
+      </section>
+    </main>
+    <footer>This is just a tool for fetching multiple cards at once from any users inventory. It matches your input list and gives you the crossover. It doesn't cache anything nor save anything anywhere.</footer>
+  </body>
+</html>
