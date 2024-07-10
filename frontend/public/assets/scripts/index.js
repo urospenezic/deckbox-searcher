@@ -283,6 +283,11 @@ class CardListFetcher {
 
   get fullUrl() {
     let searchTerm = 'export?s=&f=&o='; //default Deckbox export to text sorted search
+    
+    if(this.urlToHit.endsWith(`${searchTerm}`)){
+      return this.urlToHit;
+    }
+    
     if (!this.urlToHit.endsWith('/')) {
       searchTerm = `/${searchTerm}`;
     }
