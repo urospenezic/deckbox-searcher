@@ -4,8 +4,6 @@ const https = require('https');
 const path = require('path');
 
 const app = express();
-
-// Serve static files (e.g., index.html, index.js, index.css)
 app.use(express.static(path.join(__dirname, '..', '/frontend')));
 
 app.get('/', (req, res) => {
@@ -26,12 +24,12 @@ app.use('/proxy', async (req, res) => {
     const options = {
       method: 'GET',
       headers: {
-        ...req.headers, // Pass all headers from the frontend request
-        host: new URL(url).hostname, // Set host header based on proxied URL
+        ...req.headers, //pass in headers
+        host: new URL(url).hostname,
       },
     };
 
-    // Make the request to the specified URL
+    //send request
     const proxyRes = await new Promise((resolve, reject) => {
       const proxyReq = protocol.request(url, options, (response) => {
         resolve(response);
@@ -40,8 +38,6 @@ app.use('/proxy', async (req, res) => {
       proxyReq.on('error', (err) => {
         reject(err);
       });
-
-      // Send request body if any
       if (req.body && Object.keys(req.body).length > 0) {
         proxyReq.write(JSON.stringify(req.body));
       }
@@ -49,13 +45,12 @@ app.use('/proxy', async (req, res) => {
       proxyReq.end();
     });
 
-    // Set status and headers from the proxied response
     res.status(proxyRes.statusCode);
     for (const key in proxyRes.headers) {
       res.setHeader(key, proxyRes.headers[key]);
     }
 
-    // Pipe the proxied response back to the client
+    //response
     proxyRes.pipe(res);
   } catch (err) {
     console.error('Proxy request error:', err);
