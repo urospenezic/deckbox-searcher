@@ -28,7 +28,7 @@ class Controller {
     this.toggleSection(this.backdrop, true);
     this.toggleSection(this.cardListSection, false);
     this.toggleSection(this.errorSection, false);
-    this.toggleSection(this.entryText, true);
+    this.toggleSection(this.entryText, false);
 
     const goBtn = this.form.querySelector('#go-btn');
     if (!goBtn.hasAttribute('attachedListener')) {
@@ -65,7 +65,6 @@ class Controller {
       return;
     }
 
-    this.matchingCardMap.render(this.cardListSection);
     this.toggleLoaded();
   }
 
@@ -80,7 +79,7 @@ class Controller {
     } else {
       section.classList.remove('visible');
     }
-    this.toggleBackdrop(section !== this.form);
+    this.toggleBackdrop((section === this.form && isVisible));
   }
 
   toggleLoading() {
@@ -88,21 +87,31 @@ class Controller {
     this.toggleSection(this.entryText, false);
     this.toggleSection(this.backdrop, false);
     this.toggleSection(this.form, false);
+    this.toggleSection(this.cardListSection, false);
+    this.toggleSection(this.remoteListSection, false);
   }
 
   toggleLoaded() {
+    this.matchingCardMap.render(this.cardListSection);
+    //this.myCards.render(this.myCardsSection);
+    this.remoteCardMap.render(this.remoteListSection);
+
     this.toggleSection(this.cardListSection, true);
+    //this.toggleSection(this.myCardsSection, true);
+    this.toggleSection(this.remoteListSection, true);
     this.toggleSection(this.errorSection, false);
     this.toggleSection(this.loadingSection, false);
     this.toggleSection(this.backdrop, false);
-    this.form.classList.remove('visible');
+    this.toggleSection(this.form, false);
   }
 
   toggleError() {
     this.toggleSection(this.entryText, false);
     this.toggleSection(this.cardListSection, false);
+    this.toggleSection(this.remoteListSection, false);
     this.toggleSection(this.errorSection, true);
-    this.form.classList.remove('visible');
+    this.toggleSection(this.form, false);
+    this.toggleSection(this.loadingSection, false);
   }
 
   toggleBackdrop(on) {
@@ -141,6 +150,8 @@ class Controller {
     this.form = document.getElementById('add-modal');
     this.entryText = document.getElementById('entry-text');
     this.loadingSection = document.getElementById('loading-animation');
+    //this.myCardsSection = document.getElementById('my-cards');
+    this.remoteListSection = document.getElementById('users-cards');
 
     this.entryText.classList.add('visible');
 
@@ -228,17 +239,6 @@ class CardListFetcher {
       console.error(err);
       this.errorCallback(err);
     }
-    // this.fetch(this.fullUrl)
-    //   .then((result) => {
-    //     if (result) {
-    //       const map = this.parseResponse(result);
-    //       this.successCallback(map);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     this.errorCallback(err);
-    //   });
   }
 
   parseResponse(response) {
@@ -291,10 +291,8 @@ class CardListFetcher {
 
   async fetch(url) {
     try {
-      //const auth = btoa(this.username + ':' + this.password);
-      //const proxyUrl = 'https://deckbox-searcher.onrender.com/proxy/' + url;
+      const testProxyUrl = `http://localhost:3000/proxy/?url=${encodeURIComponent(url)}`;
       const proxyUrl = `https://deckbox-searcher.onrender.com/proxy/?url=${encodeURIComponent(url)}`;
-     // const corsAnywhereUrl = `https://cors-anywhere.herokuapp.com/${url}`;
       const response = await fetch(proxyUrl, {
         method: 'GET',
         headers: {
@@ -302,18 +300,8 @@ class CardListFetcher {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'text/html',
         },
-        redirect: 'error', // Prevent automatic following of redirects
+        redirect: 'error',
       });
-
-      // const response = await fetch(proxyUrl, {
-      //   method: 'GET',
-      //   headers: {
-      //     Authorization: `Basic ${auth}`,
-      //     'Access-Control-Allow-Origin': '*',
-      //     'Content-Type': 'text/html',
-      //   },
-      //   redirect: 'error', // Prevent automatic following of redirects
-      // });
 
       if (response.ok) {
         console.log('SUCCESS');

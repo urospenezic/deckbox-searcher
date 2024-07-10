@@ -38,14 +38,26 @@
         <p>Please make sure you're logged in to your deckbox in the browser to avoid any errors!</p>
         <p>This script cannot handle email confirmation redirects for you.</p>
       </section>
-      <section id="cards-found" class="modal">
+      <section id="cards-found" class="modal list">
         <div id="cards-div">
-          <h1>User has these cards:</h1>
+          <h1>User has these cards</h1>
           <ul id="card-list"></ul>
         </div>
-        <section id="error" class="modal error">
-          <p>An error occurred while fetching cards from the server...</p>
-        </section>
+      </section>
+      <!-- <section id="my-cards" class="modal list left">
+        <div id="cards-div">
+          <h1>My cards</h1>
+          <ul id="card-list"></ul>
+        </div>
+      </section> -->
+      <section id="users-cards" class="modal list left">
+        <div id="cards-div">
+          <h1>Users card list</h1>
+          <ul id="card-list"></ul>
+        </div>
+      </section>
+      <section id="error" class="modal error">
+        <p>An error occurred while fetching cards from the server...</p>
       </section>
     </main>
     <footer>This is just a tool for fetching multiple cards at once from any users inventory. It matches your input list and gives you the crossover. It doesn't cache anything nor save anything anywhere.</footer>
