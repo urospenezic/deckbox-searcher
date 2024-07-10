@@ -262,7 +262,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    max-height: 65rem;
+    max-height: 60rem;
   }
 
   #card-list::-webkit-scrollbar {

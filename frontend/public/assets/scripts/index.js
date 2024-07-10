@@ -217,6 +217,12 @@ class CardMap {
     for (const card of this.cards) {
       card.render(list);
     }
+
+    const copyBtn = parent.querySelector('button');
+    copyBtn.addEventListener('click', () => {
+      var values = this.entries.keys();
+      navigator.clipboard.writeText([...values].toString());
+    });
   }
 }
 
@@ -298,7 +304,7 @@ class CardListFetcher {
     try {
       const testProxyUrl = `http://localhost:3000/proxy/?url=${encodeURIComponent(url)}`;
       const proxyUrl = `https://deckbox-searcher.onrender.com/proxy/?url=${encodeURIComponent(url)}`;
-      const response = await fetch(proxyUrl, {
+      const response = await fetch(testProxyUrl, {
         method: 'GET',
         headers: {
           Authorization: `Basic ${btoa(this.username + ':' + this.password)}`,
@@ -351,6 +357,10 @@ class CaseInsensitiveMap extends Map {
       normalizedKey = this._normalizeKey(key);
     }
     return super.get(normalizedKey);
+  }
+
+  keys(){
+    return this.original.keys();
   }
 
   has(key) {
