@@ -291,29 +291,29 @@ class CardListFetcher {
 
   async fetch(url) {
     try {
-      const auth = btoa(this.username + ':' + this.password);
-      const proxyUrl = `/proxy?url=${encodeURIComponent(url)}`;
-
-      // const corsAnywhereUrl = `https://cors-anywhere.herokuapp.com/${url}`;
-      // const response = await fetch(corsAnywhereUrl, {
-      //   method: 'GET',
-      //   headers: {
-      //     Authorization: `Basic ${btoa(this.username + ':' + this.password)}`,
-      //     'Access-Control-Allow-Origin': '*',
-      //     'Content-Type': 'text/html',
-      //   },
-      //   redirect: 'error', // Prevent automatic following of redirects
-      // });
-
+      //const auth = btoa(this.username + ':' + this.password);
+      //const proxyUrl = 'https://deckbox-searcher.onrender.com/proxy/' + url;
+      const proxyUrl = `https://deckbox-searcher.onrender.com/proxy/?url=${encodeURIComponent(url)}`;
+     // const corsAnywhereUrl = `https://cors-anywhere.herokuapp.com/${url}`;
       const response = await fetch(proxyUrl, {
         method: 'GET',
         headers: {
-          Authorization: `Basic ${auth}`,
+          Authorization: `Basic ${btoa(this.username + ':' + this.password)}`,
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'text/html',
         },
         redirect: 'error', // Prevent automatic following of redirects
       });
+
+      // const response = await fetch(proxyUrl, {
+      //   method: 'GET',
+      //   headers: {
+      //     Authorization: `Basic ${auth}`,
+      //     'Access-Control-Allow-Origin': '*',
+      //     'Content-Type': 'text/html',
+      //   },
+      //   redirect: 'error', // Prevent automatic following of redirects
+      // });
 
       if (response.ok) {
         console.log('SUCCESS');
@@ -325,34 +325,6 @@ class CardListFetcher {
       console.error('An error occurred whilst fetching data:', error);
       throw error;
     }
-
-    // return new Promise((resolve, reject) => {
-    //   const request = new XMLHttpRequest();
-    //   request.addEventListener('load', () => {
-    //     if (request.status >= 200 && request.status < 300) {
-    //       console.log('SUCCESS');
-    //       resolve(request.responseText);
-    //     }else {
-    //       reject(new Error(`HTTP status ${request.status}`));
-    //     }
-    //   });
-
-    //   request.addEventListener('error', () => {
-    //     reject(new Error('An error occurred whilst fetching data'));
-    //   });
-    //   try {
-    //     request.open('GET', url);
-    //     request.setRequestHeader(
-    //       'authorization',
-    //       `Basic ${btoa(this.username + ':' + this.password)}`
-    //     );
-    //     request.redirect = 'error';
-    //     console.log('sending request..');
-    //     request.send();
-    //   } catch (err) {
-    //     reject(err);
-    //   }
-    // });
   }
 }
 

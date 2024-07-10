@@ -6,7 +6,7 @@
   "license": "ISC",
   "description": "A simple tool for fetching multiple cards at once from any deckbox inventory",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server/server.js",
     "build": "echo 'No build steps required'"
   },
   "dependencies": {
