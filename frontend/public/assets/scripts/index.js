@@ -304,7 +304,7 @@ class CardListFetcher {
     try {
       const testProxyUrl = `http://localhost:3000/proxy/?url=${encodeURIComponent(url)}`;
       const proxyUrl = `https://deckbox-searcher.onrender.com/proxy/?url=${encodeURIComponent(url)}`;
-      const response = await fetch(proxyUrl, {
+      const response = await fetch(testProxyUrl, {
         method: 'GET',
         headers: {
           Authorization: `Basic ${btoa(this.username + ':' + this.password)}`,

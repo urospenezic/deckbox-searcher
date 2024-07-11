@@ -142,12 +142,12 @@
     background: white;
     border-radius: 10px;
     width: 80%;
-    max-width: calc(100% - 20px); /* Ensures modal doesn't exceed 100% minus padding */
+    max-width: calc(100% - 20px);
     top: 30vh;
     left: 50%;
     transform: translateX(-50%);
-    max-height: 70%; /* Adjust as needed to leave space for header and footer */
-    overflow-y: auto; /* Enables scrolling if modal content exceeds max-height */
+    max-height: 70%;
+    overflow-y: auto; 
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     display: none;
   }
@@ -231,6 +231,9 @@
   .card {
     background: white;
     border-radius: 10px;
+    max-height: 50%;
+    left: 2rem;
+    margin-bottom: 5rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   }
   
@@ -262,7 +265,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    max-height: 60rem;
+    max-height: 20rem;
   }
 
   #card-list::-webkit-scrollbar {
@@ -292,7 +295,7 @@
 
   .modal.list {
     max-height: 90%;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
     background-color: white;
     padding: 1rem;
     border-radius: 10px;
@@ -302,21 +305,21 @@
     text-align: center;
     top:5rem;
     bottom:5rem;
+    left:2rem;
   }
 
-  .modal.list h1{
-    font-size: 1.5rem;
-    text-align: center;
+  
+  
+  .modal.list h1 {
+    font-size: 1.2rem;
   }
 
   .modal.list.left {
-    left: 2rem;
-    top: 5rem;
+    left: 1rem;
   }
-  
+
   .modal.list.right {
-    right: 0;
-    top: 5rem;
+    right: 1rem;
   }
   
   .modal.list.center{
@@ -325,8 +328,13 @@
     top:5rem;
   }
 
+  .modal.list.left.visible{
+    display: none;
+  }
+
   #cards-div{
-    max-height: 90%;
+    max-height: 99%;
+    max-width: 99%;
     padding: 0;
     margin: 0;
   }
@@ -353,10 +361,40 @@
     flex-direction: column;
   }
   
-  @media (min-width: 768px) {
+  @media (min-width: 1350px) {
     .modal {
       width: 40rem;
       left: calc(50% - 20rem);
+    }
+
+    .modal.list {
+      left: calc(50% - 20rem);
+      max-height: 99%;
+      top:5rem;
+      bottom:5rem;
+    }
+
+    .modal.list.left.visible{
+      display: block;
+    }
+
+    .modal.list h1{
+     font-size: 1.5rem;
+     text-align: center;
+    }
+
+    .modal.list.left {
+      left: 2rem;
+      top: 5rem;
+    }
+  
+    .modal.list.right {
+     right: 0;
+      top: 5rem;
+    }
+
+    #card-list{
+      max-height: 60rem;
     }
   }
   
