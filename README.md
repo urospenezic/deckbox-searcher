@@ -53,6 +53,28 @@ npm start
 http://localhost:3000
 ```
 
+## Deployment
+
+### Render
+
+This application is configured for easy deployment on [Render](https://render.com/). The repository includes a `render.yaml` file that automatically configures the deployment.
+
+**Steps to deploy:**
+
+1. Sign up for a free account on [Render](https://render.com/)
+2. Connect your GitHub account to Render
+3. Grant Render access to your repository
+4. Create a new Web Service and select this repository
+5. Render will automatically detect the `render.yaml` configuration and deploy your application
+
+The application will be deployed with:
+- Node.js runtime
+- Automatic dependency installation (`npm install`)
+- Start command: `npm start`
+- Free tier hosting
+
+**Note**: Make sure your repository is either public or you've granted Render access to your private repository.
+
 ## Usage
 
 1. Click the **"ADD INFO"** button to open the search form
@@ -86,6 +108,7 @@ deckbox-searcher/
 ├── server/
 │   └── server.js            # Express proxy server
 ├── package.json             # Project dependencies
+├── render.yaml              # Render deployment configuration
 └── README.md                # This file
 ```
 
