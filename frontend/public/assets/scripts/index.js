@@ -48,8 +48,6 @@ class Controller {
     this.myCards = new CardMap(myMap);
     this.fetcher = new CardListFetcher(
       info.url,
-      info.username,
-      info.password,
       this.onRemoteCardsLoaded.bind(this),
       this.onError.bind(this)
     );
@@ -123,16 +121,13 @@ class Controller {
   }
 
   gatherFormInfo() {
-    const username = this.form.querySelector('#username').value;
-    const password = this.form.querySelector('#password').value;
     const setUrl = this.form.querySelector('#set').value;
     const myCardList = this.form
       .querySelector('#my-card-list')
-      .value.split('\n');
+      .value.split('\n')
+      .filter((item) => item.trim() !== '');
 
     return {
-      username: username,
-      password: password,
       url: setUrl,
       list: myCardList,
     };
@@ -227,9 +222,7 @@ class CardMap {
 }
 
 class CardListFetcher {
-  constructor(setUrl, username, pass, successCallback, errorCallback) {
-    this.username = username;
-    this.password = pass;
+  constructor(setUrl, successCallback, errorCallback) {
     this.urlToHit = setUrl;
     this.successCallback = successCallback;
     this.errorCallback = errorCallback;
@@ -238,7 +231,7 @@ class CardListFetcher {
 
   async start() {
     try {
-      const result = await this.fetch(this.fullUrl);
+      const result = await this.fetch(this.urlToHit);
       const map = this.parseResponse(result);
       this.successCallback(map);
     } catch (err) {
@@ -248,82 +241,69 @@ class CardListFetcher {
   }
 
   parseResponse(response) {
-    console.log(response);
-    if (response.trim() === '') {
+    console.log('Parsing response:', response);
+    if (!response || response.trim() === '') {
       return new CaseInsensitiveMap();
     }
 
     try {
-      const dom = new DOMParser().parseFromString(response, 'text/html');
-      //GET BASE NODES
-      const nodesBase = dom.body.childNodes;
-      //FILTER THE NODE BS OUT AND GET THE TEXT ONLY, DON'T LET DUPLICATES
+      // Parse JSON response from Puppeteer scraper
+      const data = JSON.parse(response);
       const map = new CaseInsensitiveMap();
-      [...nodesBase]
-        .filter((c) => c.textContent.trim() !== '')
-        .forEach((txtNode) => {
-          const txt = txtNode.textContent.trim();
-          const match = txt.match(this.regex);
-
-          if (match) {
-            const quantity = match[1];
-            const name = match[2];
+      
+      if (data.cards && Array.isArray(data.cards)) {
+        data.cards.forEach(card => {
+          if (card.name && card.quantity) {
+            const name = card.name.trim();
+            const quantity = parseInt(card.quantity) || 0;
+            
             if (map.has(name)) {
-              map.set(name, parseInt(map.get(name)) + 1);
+              map.set(name, map.get(name) + quantity);
             } else {
               map.set(name, quantity);
             }
-          } else {
-            console.log(
-              'MATCH REGEX FAILED. CONTACT MEH SO I CAN CHECK WTF IS GOING ON'
-            );
           }
         });
+      }
+      
+      console.log(`Parsed ${map.size} unique cards`);
       return map;
     } catch (error) {
-      console.error(error);
+      console.error('Failed to parse response:', error);
       this.errorCallback(error);
       return new CaseInsensitiveMap();
     }
   }
 
-  get fullUrl() {
-    // Decode HTML entities (like &amp; to &)
-    const tempElement = document.createElement('textarea');
-    tempElement.innerHTML = this.urlToHit;
-    const decodedUrl = tempElement.value;
-    
-    let searchTerm = 'export?s=&f=&o='; //default Deckbox export to text sorted search
-    
-    if(decodedUrl.endsWith(`${searchTerm}`)){
-      return decodedUrl;
-    }
-    
-    if (!decodedUrl.endsWith('/')) {
-      searchTerm = `/${searchTerm}`;
-    }
-    return decodedUrl + searchTerm;
-  }
+
 
   async fetch(url) {
     try {
       const testProxyUrl = `http://localhost:3000/proxy/?url=${encodeURIComponent(url)}`;
       const proxyUrl = `https://deckbox-searcher.onrender.com/proxy/?url=${encodeURIComponent(url)}`;
-      const response = await fetch(proxyUrl, {
+      
+      // Use local proxy for development, production proxy for deployed version
+      const targetUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+        ? testProxyUrl 
+        : proxyUrl;
+      
+      console.log(`Making request to: ${targetUrl}`);
+      
+      const response = await fetch(targetUrl, {
         method: 'GET',
         headers: {
-          Authorization: `Basic ${btoa(this.username + ':' + this.password)}`,
-          'Access-Control-Allow-Origin': '*',
           'Content-Type': 'text/html',
         },
-        redirect: 'error',
+        redirect: 'follow',
       });
 
       if (response.ok) {
-        console.log('SUCCESS');
-        return await response.text();
+        console.log('SUCCESS - Response received');
+        const text = await response.text();
+        console.log(`Response length: ${text.length} characters`);
+        return text;
       } else {
-        throw new Error(`HTTP status ${response.status}`);
+        throw new Error(`HTTP status ${response.status}: ${response.statusText}`);
       }
     } catch (error) {
       console.error('An error occurred whilst fetching data:', error);

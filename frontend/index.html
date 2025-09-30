@@ -12,12 +12,8 @@
     <div id="backdrop"></div>
     <div class="modal card" id="add-modal">
       <div class="modal__content">
-        <label for="username">Deckbox username</label>
-        <input type="text" name="username" id="username" placeholder="Will not be saved anywhere..."/>
-        <label for="password">Deckbox password</label>
-        <input type="text" name="password" id="password" placeholder="Will not be saved anywhere..."/>
-        <label for="set">Paste in users set url</label>
-        <input type="text" name="set" id="set" />
+        <label for="set">Paste in user's set URL</label>
+        <input type="text" name="set" id="set" placeholder="https://deckbox.org/sets/2184892"/>
         <label for="my-card-list">Paste your card list here</label>
         <textarea type="text" name="my-card-list" id="my-card-list">Enter what you're looking for separated by new line...</textarea>
         <button class="btn" id="go-btn">START SEARCH</button>
@@ -35,8 +31,8 @@
       </section>
       <section id="entry-text" class="card">
         <p>Add info to search for multiple cards at once!</p>
-        <p>Please make sure you're logged in to your deckbox in the browser to avoid any errors!</p>
-        <p>This script cannot handle email confirmation redirects for you.</p>
+        <p>Simply paste a Deckbox set URL and your card list to find matches!</p>
+        <p>Works with any public Deckbox set - no login required.</p>
       </section>
       <section id="cards-found" class="modal list">
         <div id="cards-div">
