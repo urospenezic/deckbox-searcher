@@ -288,16 +288,21 @@ class CardListFetcher {
   }
 
   get fullUrl() {
+    // Decode HTML entities (like &amp; to &)
+    const tempElement = document.createElement('textarea');
+    tempElement.innerHTML = this.urlToHit;
+    const decodedUrl = tempElement.value;
+    
     let searchTerm = 'export?s=&f=&o='; //default Deckbox export to text sorted search
     
-    if(this.urlToHit.endsWith(`${searchTerm}`)){
-      return this.urlToHit;
+    if(decodedUrl.endsWith(`${searchTerm}`)){
+      return decodedUrl;
     }
     
-    if (!this.urlToHit.endsWith('/')) {
+    if (!decodedUrl.endsWith('/')) {
       searchTerm = `/${searchTerm}`;
     }
-    return this.urlToHit + searchTerm;
+    return decodedUrl + searchTerm;
   }
 
   async fetch(url) {
