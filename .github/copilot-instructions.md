@@ -1,7 +1,18 @@
 # Deckbox Searcher - Copilot Instructions
 
+> **Note for GitHub Copilot**: This file provides context and guidelines for AI-assisted development in this repository. Use these instructions to understand the project structure, coding conventions, and development workflows.
+
+## Repository Context
+This is a production web application with active users. The codebase is stable and working. When making changes:
+- Prioritize minimal, surgical modifications
+- Test thoroughly before committing
+- Maintain backward compatibility
+- Focus on the specific issue at hand
+
 ## Project Overview
 Deckbox Searcher is a web-based tool for searching multiple cards at once from Deckbox user inventories. It helps users avoid searching through Deckbox inventories one card at a time by providing batch search functionality.
+
+**Main Use Case**: Users can authenticate with their Deckbox credentials, provide a URL to another user's inventory, and submit a list of cards they're looking for. The application returns which cards from their list are available in that user's inventory.
 
 ## Technology Stack
 - **Backend**: Node.js with Express
@@ -94,11 +105,40 @@ The server runs on port 3000 by default (configurable via PORT environment varia
 No build step is required - the application uses vanilla JavaScript served directly.
 
 ## Testing
-Currently, there are no automated tests. Manual testing should cover:
-- Form submission with valid Deckbox credentials
-- Card list parsing and matching
-- Error handling for network failures
-- Copy-to-clipboard functionality
+Currently, there are no automated tests. All testing is done manually.
+
+### Manual Testing Checklist
+1. **Form Submission**: 
+   - Enter valid Deckbox username and password
+   - Provide a valid Deckbox inventory URL (e.g., `https://deckbox.org/sets/[set_id]`)
+   - Paste a list of card names (one per line)
+   - Click "START SEARCH"
+
+2. **Card List Parsing**: 
+   - Verify cards are parsed correctly (case-insensitive matching)
+   - Check that quantities are displayed correctly
+
+3. **Error Handling**:
+   - Test with invalid credentials
+   - Test with invalid URLs
+   - Test with network failures (use DevTools to simulate)
+   - Verify error messages are user-friendly
+
+4. **Copy-to-Clipboard**: 
+   - Click the COPY button
+   - Verify the card list is copied to clipboard
+
+### Running the Application for Testing
+```bash
+npm start
+# Open http://localhost:3000 in your browser
+```
+
+### Common Test Scenarios
+- Empty card list input
+- Card names with special characters
+- Very long card lists (100+ cards)
+- Multiple searches in succession
 
 ## Important Implementation Notes
 
@@ -140,3 +180,47 @@ The application uses a proxy server to bypass CORS restrictions. Direct requests
 - The proxy server passes credentials to Deckbox over HTTPS
 - No persistent storage of user data
 - Be cautious with logging to avoid exposing sensitive information
+
+## Dependency Management
+The project uses npm for dependency management. Key dependencies:
+- `express`: Web server framework
+- `cors`: CORS middleware (though currently using custom proxy)
+- `node-fetch`: HTTP client for proxy requests
+
+### Updating Dependencies
+```bash
+# Check for outdated packages
+npm outdated
+
+# Update dependencies (be careful with breaking changes)
+npm update
+
+# Install a new dependency
+npm install <package-name> --save
+```
+
+## Troubleshooting
+
+### Common Issues
+
+**Issue**: CORS errors in browser console
+- **Cause**: Frontend is making direct requests to Deckbox instead of using the proxy
+- **Solution**: Ensure all Deckbox requests go through `/proxy?url=<deckbox-url>`
+
+**Issue**: 401 Unauthorized errors
+- **Cause**: Invalid credentials or user not logged into Deckbox in browser
+- **Solution**: Verify credentials and ensure user is logged into Deckbox in their browser
+
+**Issue**: Server won't start
+- **Cause**: Port 3000 is already in use
+- **Solution**: Either kill the process using port 3000 or set PORT environment variable: `PORT=3001 npm start`
+
+**Issue**: Cards not matching
+- **Cause**: Case sensitivity or special characters in card names
+- **Solution**: The `CaseInsensitiveMap` class handles this, but check for extra whitespace or special characters
+
+### Debugging Tips
+- Enable browser DevTools Network tab to inspect requests/responses
+- Check server console for detailed logs
+- Use `console.log()` in CardListFetcher to debug parsing issues
+- Verify the proxy is correctly forwarding headers
