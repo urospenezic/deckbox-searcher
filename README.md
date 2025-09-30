@@ -6,6 +6,10 @@ A simple vanilla JavaScript tool for searching multiple Magic: The Gathering car
 
 Deckbox Searcher is a web application that helps you efficiently search for multiple cards in a user's [Deckbox.org](https://deckbox.org/) inventory. Instead of manually searching for cards one at a time, this tool allows you to paste a list of cards you're looking for and quickly find which ones a specific user has in their collection.
 
+## Live Demo
+
+Try the application without installing: **[https://deckbox-searcher.onrender.com/](https://deckbox-searcher.onrender.com/)**
+
 ## Features
 
 - **Batch Card Search**: Search for multiple cards at once by providing a list
@@ -126,10 +130,6 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 ## Contributing
 
 This is a personal project, but suggestions and improvements are welcome. Feel free to open an issue or submit a pull request.
-
-## Author
-
-- **pepegica** (Uros Penezic)
 
 ## Support
 
