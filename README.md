@@ -4,7 +4,7 @@ A simple vanilla JavaScript tool for searching multiple Magic: The Gathering car
 
 ## Overview
 
-Deckbox Searcher is a web application that helps you efficiently search for multiple cards in a user's [Deckbox.org](https://deckbox.org/) inventory. Instead of manually searching for cards one at a time, this tool allows you to paste a list of cards you're looking for and quickly find which ones a specific user has in their collection.
+Deckbox Searcher is a tool that helps you efficiently search for multiple cards in a user's [Deckbox.org](https://deckbox.org/) inventory. Instead of manually searching for cards one at a time, this tool allows you to paste a list of cards you're looking for and quickly find which ones a specific user has in their collection.
 
 ## Live Demo
 
@@ -107,27 +107,6 @@ deckbox-searcher/
 - Static file serving
 - CORS handling
 - Public data extraction from Deckbox.org
-
-## Disclaimer
-
-This tool is an independent project and is **not affiliated with, endorsed by, or sponsored by Deckbox.org or its operators**.
-
-- This tool only accesses publicly available data from Deckbox.org
-- **Deckbox.org**: All content, trademarks, and data from Deckbox.org are property of their respective owners
-- **Magic: The Gathering**: Magic: The Gathering and all related content are owned by Wizards of the Coast LLC
-- This tool is intended for personal use only to facilitate card trading and collection management
-- Users are responsible for complying with Deckbox.org's Terms of Service
-- Do not use this tool in a way that could overload or abuse Deckbox.org's servers
-
-## License
-
-ISC License
-
-Copyright (c) pepegica
-
-Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
-
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 ## Contributing
 
