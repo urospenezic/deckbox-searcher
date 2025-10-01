@@ -14,18 +14,19 @@ Try the application without installing: **[https://deckbox-searcher.onrender.com
 
 - **Batch Card Search**: Search for multiple cards at once by providing a list
 - **Real-time Results**: Displays which cards from your list are available in the user's inventory
+- **No Login Required**: Works with any public Deckbox set without authentication
 - **Privacy Focused**: No data is cached or stored anywhere - all searches are ephemeral
 - **Simple Interface**: Clean, intuitive UI that's easy to use
-- **Proxy Server**: Built-in proxy to handle CORS and authentication with Deckbox.org
+- **Web Scraping**: Efficiently scrapes public Deckbox data to find matching cards
 
 ## How It Works
 
 The application consists of two main components:
 
 1. **Frontend**: A vanilla JavaScript single-page application that provides the user interface
-2. **Backend**: An Express.js proxy server that forwards requests to Deckbox.org while handling authentication
+2. **Backend**: An Express.js server that scrapes public Deckbox set pages to retrieve card data
 
-The frontend sends your card list and the target user's Deckbox URL to the proxy server, which then fetches and parses the DOM from Deckbox.org to find matching cards.
+The frontend sends your card list and the target user's Deckbox URL to the backend server, which then scrapes the public HTML from Deckbox.org to find matching cards. The application only works with publicly accessible Deckbox sets and does not require any authentication.
 
 ## Installation
 
@@ -60,19 +61,18 @@ http://localhost:3000
 ## Usage
 
 1. Click the **"ADD INFO"** button to open the search form
-2. Enter your Deckbox credentials (username and password)
-   - Note: Your credentials are only used to authenticate the proxy request and are not stored
-3. Paste the target user's Deckbox set URL (e.g., `https://deckbox.org/sets/123456`)
-4. Enter your card list in the text area, with one card name per line
-5. Click **"START SEARCH"** to begin
-6. Review the results showing which cards the user has from your list
-7. Use the **"COPY"** button to copy the results to your clipboard
+2. Paste the target user's Deckbox set URL (e.g., `https://deckbox.org/sets/123456`)
+   - Note: The set must be publicly accessible (not private)
+3. Enter your card list in the text area, with one card name per line
+4. Click **"START SEARCH"** to begin
+5. Review the results showing which cards the user has from your list
+6. Use the **"COPY"** button to copy the results to your clipboard
 
 ### Important Notes
 
-- Make sure you're logged into your Deckbox account in your browser before using this tool
-- The tool cannot handle email confirmation redirects
+- Only works with public Deckbox sets - private sets are not accessible
 - All data is processed in real-time and nothing is saved or cached
+- The tool scrapes publicly available data and does not use any private APIs
 
 ## Project Structure
 
@@ -88,7 +88,7 @@ deckbox-searcher/
 │   │           └── index.css # Styling
 │   └── README.md            # Frontend-specific readme
 ├── server/
-│   └── server.js            # Express proxy server
+│   └── server.js            # Express server with web scraping
 ├── package.json             # Project dependencies
 └── README.md                # This file
 ```
@@ -103,18 +103,20 @@ deckbox-searcher/
 
 ### Backend
 - Express.js web server
-- HTTP/HTTPS proxy functionality
+- Web scraping with JSDOM for parsing HTML
 - Static file serving
 - CORS handling
+- Public data extraction from Deckbox.org
 
-## Disclaimer and Copyright
+## Disclaimer
 
 This tool is an independent project and is **not affiliated with, endorsed by, or sponsored by Deckbox.org or its operators**.
 
+- This tool only accesses publicly available data from Deckbox.org
 - **Deckbox.org**: All content, trademarks, and data from Deckbox.org are property of their respective owners
 - **Magic: The Gathering**: Magic: The Gathering and all related content are owned by Wizards of the Coast LLC
 - This tool is intended for personal use only to facilitate card trading and collection management
-- Users are responsible for complying with Deckbox.org's Terms of Service and API usage policies
+- Users are responsible for complying with Deckbox.org's Terms of Service
 - Do not use this tool in a way that could overload or abuse Deckbox.org's servers
 
 ## License
